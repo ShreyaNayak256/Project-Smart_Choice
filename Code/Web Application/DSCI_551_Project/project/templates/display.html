@@ -1,0 +1,546 @@
+<html>
+<head>
+    <style>
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
+
+body{
+    background-color: #22262e;
+}
+
+.result-table {
+  font-family: "Roboto", helvetica, arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  margin:15px;
+  margin-left:auto;
+  margin-right:auto;
+  padding:5px;
+  width: 90%;
+  height: 700px;
+  overflow: auto;
+  text-align:justify;
+  border-radius:20px;
+}
+
+div.table-title {
+   display: block;
+  margin: auto;
+  max-width: 600px;
+  padding:5px;
+  width: 100%;
+  text-align: center;
+}
+
+.table-title h3 {
+   color: #fafafa;
+   font-size: 30px;
+   font-weight: 400;
+   font-style:normal;
+   font-family: "Roboto", helvetica, arial, sans-serif;
+   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+   text-transform:uppercase;
+}
+
+
+/*** Table Styles **/
+
+.table-fill {
+  background: white;
+  border-radius:3px;
+  border-collapse: collapse;
+  height: 320px;
+  margin: auto;
+  max-width: 600px;
+  padding:5px;
+  width: 100%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: float 5s infinite;
+}
+ 
+th {
+  color:#D5DDE5;;
+  background:#1b1e24;
+  border-bottom:4px solid #9ea7af;
+  border-right: 1px solid #343a45;
+  font-size:23px;
+  font-weight: 100;
+  padding:24px;
+  text-align:left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
+}
+
+th:first-child {
+  border-top-left-radius:3px;
+}
+ 
+th:last-child {
+  border-top-right-radius:3px;
+  border-right:none;
+}
+  
+tr {
+  border-top: 1px solid #C1C3D1;
+  border-bottom: 1px solid #C1C3D1;
+  color:#666B85;
+  font-size:16px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+ 
+tr:hover td {
+  background:#4E5066;
+  color:#FFFFFF;
+  border-top: 1px solid #22262e;
+}
+ 
+tr:first-child {
+  border-top:none;
+}
+
+tr:last-child {
+  border-bottom:none;
+}
+ 
+tr:nth-child(odd) td {
+  background:#EBEBEB;
+}
+ 
+tr:nth-child(odd):hover td {
+  background:#4E5066;
+}
+
+tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+ 
+tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+ 
+td {
+  background:#FFFFFF;
+  padding:20px;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:300;
+  font-size:18px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #C1C3D1;
+}
+
+td:last-child {
+  border-right: 0px;
+}
+
+th.text-left {
+  text-align: left;
+}
+
+th.text-center {
+  text-align: center;
+}
+
+th.text-right {
+  text-align: right;
+}
+
+td.text-left {
+  text-align: left;
+}
+
+td.text-center {
+  text-align: center;
+}
+
+td.text-right {
+  text-align: right;
+}
+
+.filterDiv {
+  float: left;
+  background-color: #1074c5;
+  border-radius: 15px;
+  color: #ffffff;
+  padding-left:20px;
+  padding-right:20px;
+  line-height: 40px;
+  text-align: center;
+  margin: 2px;
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.container {
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+/* Style the buttons */
+.btn {
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #ddd;
+}
+
+.btn.active {
+  background-color: #666;
+  color: white;
+}
+.filter_values{
+    width:100%;
+    height:100px;
+    /* display: flex; */
+}
+.analysis-header{
+    text-align: center;
+}
+.analysis-plot{
+  border-radius:5px;
+}
+.plot-header, .analysis-header{
+    color:white;
+    border-radius:5px;
+    text-align: center;
+}
+
+.plot img{
+    width: 100%;
+    height:400px;
+    padding:5px;
+    border-radius:15px;
+}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/*---Bases---*/
+*
+{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+body
+{
+  font-family: 'Poppins', sans-serif;
+}
+ul
+{
+  list-style:none;
+}
+a
+{
+  text-decoration:none;
+}
+/*---Header---*/
+.header
+{
+  height:100vh;
+  width:100vw;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2Njg2MjIwNTY&ixlib=rb-4.0.3&q=80');
+  background-size:cover; 
+}
+/*---Navbar---*/
+.navbar
+{
+  /* position:absolute; */
+  width:100%;
+  padding:50px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.navbar .logo
+{
+  font-size:4em;
+  font-weight:bold;
+  margin-left:35%;
+}
+.navbar .nav-links ul
+{
+  display:flex;
+}
+.navbar .nav-links ul li
+{
+  margin:0 25px;
+}
+.navbar .nav-links ul li.active a
+{
+  color:#ed3c57;
+  font-weight:600;
+}
+.navbar a 
+{
+  color:white;
+}
+.navbar .menu-hamburger
+{
+  display:none;
+  color:white;
+  position:absolute;
+  top:50px;
+  right:50px;
+  font-size:35px;
+  cursor:pointer;
+}
+
+@media screen and (max-width:900px)
+{
+  .navbar
+  {
+    padding:0;
+  }
+  .navbar .logo
+  {
+    display:none;
+  }
+  .navbar .menu-hamburger
+  {
+    display:block;
+  }
+  .nav-links
+  {
+    top:0;
+    left:-100%;
+    position:absolute;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color:rgba(0,0,0,0.5);
+    backdrop-filter:blur(8px);
+    width:100%;
+    height:100vh;
+    transition: left 0.5s ease;
+    
+  }
+  .nav-links.mobile-menu
+  {
+  left:0;
+    
+  }
+
+  .nav-links ul
+  {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .navbar .nav-links ul li
+  {
+  margin:25px 0;
+  font-size:1.2em;
+  }
+  .menu-hamburger
+  {
+    display:block;
+  }
+}
+.filter-form-box{
+  margin-top:20px;
+  padding: 30px;
+  margin-left:40px;
+  margin-right:40px;
+  text-align: center;
+  background-color: #33353b;
+  border-radius: 20px;
+  padding-bottom:0;
+}
+.filter-values{
+  text-align: center;
+  margin-left:10px;
+  margin-right:10px;
+}
+.analysis-plot{
+  margin:10px;
+}
+
+.analysis-row{
+  display: flex;
+}
+        </style>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+
+filterSelection("all");
+function filterSelection(c) {
+  var x, i;
+  x = document.getElementsByClassName("filterDiv");
+  if (c == "all") c = "";
+  for (i = 0; i < x.length; i++) {
+    w3RemoveClass(x[i], "show");
+    if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+  }
+}
+
+function w3AddClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+  }
+}
+
+function w3RemoveClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    while (arr1.indexOf(arr2[i]) > -1) {
+      arr1.splice(arr1.indexOf(arr2[i]), 1);     
+    }
+  }
+  element.className = arr1.join(" ");
+}
+
+// Add active class to the current button (highlight it)
+var btnContainer = document.getElementById("myBtnContainer");
+var btns = btnContainer.getElementsByClassName("btn");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function(){
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}
+    </script>
+    
+    </head>
+<body>
+
+  <nav class="navbar">
+    <a href="#" class="logo">Smart Choice</a>
+    <div class="nav-links">
+      <ul class="nav-menu">
+        <li><a href={% url 'home' %}>Home</a></li>
+        <li><a href={% url 'functions' %}>EDFS CLI</a></li>
+      </ul>
+    </div>
+      <i class='bx bx-grid-alt menu-hamburger'></i>
+  
+  </nav>
+
+    <!-- <p id = "show_pie" style = "display:none">{{ shows_pie }}</p> -->
+    
+    <div class = "filter-form-box">
+      <h2 style = "color:white">Filters</h2>
+        <div id="myBtnContainer">
+            <button class="btn active" onclick="filterSelection('all')"> All Filters</button>
+            <button class="btn " onclick="filterSelection('ratings')"> On Ratings</button>
+            <button class="btn " onclick="filterSelection('genres')"> On Genres</button>
+            <button class="btn " onclick="filterSelection('year')"> On Release Year</button>
+        </div>
+          
+        <div class="container filter_values">
+            <a href = {% url 'filter_rating' platform service 1 3 %}><div class="filterDiv ratings">Very Low (1-3)</div></a>
+            <a href = {% url 'filter_rating' platform service 3 5 %}><div class="filterDiv ratings">Low (3-5)</div></a>
+            <a href = {% url 'filter_rating' platform service 5 7 %}><div class="filterDiv ratings">Moderate (5-7)</div></a>
+            <a href = {% url 'filter_rating' platform service 7 9 %}><div class="filterDiv ratings">High (7-9)</div></a>
+            <a href = {% url 'filter_rating' platform service 9 10 %}><div class="filterDiv ratings">Very High (9+)</div></a>
+
+            <a href = {% url 'filter_year' platform service 1980 %}><div class="filterDiv year">1980s and before</div></a>
+            <a href = {% url 'filter_year' platform service 1990 %}><div class="filterDiv year">1990s</div></a>
+            <a href = {% url 'filter_year' platform service 2000 %}><div class="filterDiv year">2000s</div></a>
+            <a href = {% url 'filter_year' platform service 2010 %}><div class="filterDiv year">2010s</div></a>
+            <a href = {% url 'filter_year' platform service 2020 %}><div class="filterDiv year">2020s</div></a>
+            
+            <a href = {% url 'filter_genre' platform service "action" %}><div class="filterDiv genres">action</div></a>
+            <a href = {% url 'filter_genre' platform service "animation" %}><div class="filterDiv genres">animation</div></a>
+            <a href = {% url 'filter_genre' platform service "comedy" %}><div class="filterDiv genres">comedy</div></a>
+            <a href = {% url 'filter_genre' platform service "crime" %}><div class="filterDiv genres">crime</div></a>
+            <a href = {% url 'filter_genre' platform service "documentation" %}><div class="filterDiv genres">documentation</div></a>
+            <a href = {% url 'filter_genre' platform service "drama" %}><div class="filterDiv genres">drama</div></a>
+            <a href = {% url 'filter_genre' platform service "european" %}><div class="filterDiv genres">european</div> </a>
+            <a href = {% url 'filter_genre' platform service "family" %}><div class="filterDiv genres">family</div> 
+            <a href = {% url 'filter_genre' platform service "fantasy" %}><div class="filterDiv genres">fantasy</div> </a>
+            <a href = {% url 'filter_genre' platform service "history" %}><div class="filterDiv genres">history</div> </a>
+            <a href = {% url 'filter_genre' platform service "horror" %}><div class="filterDiv genres">horror</div> </a>
+            <a href = {% url 'filter_genre' platform service "music" %}><div class="filterDiv genres">music</div> </a>
+            <a href = {% url 'filter_genre' platform service "reality" %}><div class="filterDiv genres">reality</div> </a>
+            <a href = {% url 'filter_genre' platform service "romance" %}><div class="filterDiv genres">romance</div> </a>
+            <a href = {% url 'filter_genre' platform service "scifi" %}><div class="filterDiv genres">scifi</div> </a>
+            <a href = {% url 'filter_genre' platform service "sport" %}><div class="filterDiv genres">sport</div> </a>
+            <a href = {% url 'filter_genre' platform service "thriller" %}><div class="filterDiv genres">thriller</div> </a>
+            <a href = {% url 'filter_genre' platform service "war" %}><div class="filterDiv genres">war</div> </a>
+            <a href = {% url 'filter_genre' platform service "western" %}><div class="filterDiv genres">western</div></a>
+        </div>  
+    </div>
+    <hr>
+    <div class = "result-table" style=" background-color: {{ table_color }}">
+    <div class="table-title">
+    <h3>Data Table: {{platform}} on {{service}}</h3>
+    </div>
+    <table class="table-fill">
+    <thead>
+    <tr>
+    <th class="text-left">Title</th>
+    <th class="text-left">Description</th>
+    <th class="text-left">Genres</th>
+    <!-- <th class="text-left">ID </th> -->
+    <th class="text-left">Imdb_Score</th>
+    <th class="text-left">Release_year</th>
+    <!-- <th class="text-left">Streaming Platform</th> -->
+    
+    <!-- <th class="text-left">Type</th> -->
+    </tr>
+    </thead>
+    <tbody class="table-hover">
+    {% for i in data %}
+    <tr>
+    <td class="text-left">{{ i.Title }}</td>
+    <td class="text-left">{{ i.Description }}</td>
+    <td class="text-left">{{ i.Genres }}</td>
+    <!-- <td class="text-left">{{ i.ID }} </td> -->
+    <td class="text-left">{{ i.Imdb_Score }}</td>
+    <td class="text-left">{{ i.Release_year }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+</div>
+<div class = "data-analysis">
+    <div class = "analysis-header">
+        <h2>Analysis of {{ service }} data</h2>
+    </div>
+    <div class = "analysis-row">
+      <div class = "analysis-plot">
+          <div class = "plot-header">
+              <h3> Shows VS Movies Distribution </h3> 
+          </div>
+          <!-- pie chart -->
+          <div class = "plot">
+              <img src = {{ distribution_url }}> 
+          </div>
+      </div>
+      <div class = "analysis-plot">
+          <div class = "plot-header">
+              <h3> Runtime </h3> 
+          </div>
+          <!-- pie chart -->
+          <div class = "plot">
+              <img src = {{ runtime_url }}>
+          </div>
+      </div>
+      <div class = "analysis-plot">
+          <div class = "plot-header">
+              <h3> Top 10 Genres</h3> 
+          </div>
+          <!-- pie chart -->
+          <div class = "plot">
+              <img src= {{ top_10_url }} >
+          </div>
+      </div>
+    </div>
+    
+</div>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>SmartChoice</title>
+        <style>
+          body{
+    background-color: #22262e;
+}        
+        .dropbtn {
+          background-color: #3498DB;
+          color: white;
+          padding: 16px;
+          font-size: 16px;
+          border: none;
+          cursor: pointer;
+        }
+        
+        .dropbtn:hover, .dropbtn:focus {
+          background-color: #2980B9;
+        }
+        
+        .dropdown {
+          position: relative;
+          display: inline-block;
+          padding-left: 40px;
+          padding-right:40px;
+        }
+        
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f1f1f1;
+          min-width: 160px;
+          overflow: auto;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          z-index: 1;
+        }
+        
+        .dropdown-content a {
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+        }
+        
+        .dropdown a:hover {background-color: #ddd;}
+        
+        .show {display: block;}
+        .site-header{
+          text-align: center;
+          color:white;
+          font-size: large;
+        }
+        .row{
+          text-align: center;
+        }
+        .Submit-Button{
+          text-align:center;
+        }
+        .form-input{
+          width: 170px;
+          height:40px;
+        }
+
+
+        .choice-split {
+          height: 100%;
+          width: 50%;
+          position: fixed;
+          z-index: 1;
+          top: 0;
+          overflow-x: hidden;
+          padding-top: 20px;
+        }
+        .choice-split:hover {
+          opacity:0.7;
+        }
+
+        .choice-left {
+          top:230px;
+          left: 0;
+          background-color: #111;
+        }
+
+        .choice-right {
+          top:230px;
+          right: 0;
+          background-color: red;
+        }
+
+        .choice-centered {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+        }
+
+        .choice-centered img {
+          width: 150px;
+          border-radius: 50%;
+        }
+        /*---Google font---*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/*---Bases---*/
+*
+{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+body
+{
+  font-family: 'Poppins', sans-serif;
+}
+ul
+{
+  list-style:none;
+}
+a
+{
+  text-decoration:none;
+}
+/*---Header---*/
+.header
+{
+  height:100vh;
+  width:100vw;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2Njg2MjIwNTY&ixlib=rb-4.0.3&q=80');
+  background-size:cover; 
+}
+/*---Navbar---*/
+.navbar
+{
+  position:absolute;
+  width:100%;
+  padding:50px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.navbar .logo
+{
+  font-size:4em;
+  font-weight:bold;
+  margin-left:35%;
+}
+.navbar .nav-links ul
+{
+  display:flex;
+}
+.navbar .nav-links ul li
+{
+  margin:0 25px;
+}
+.navbar .nav-links ul li.active a
+{
+  color:#ed3c57;
+  font-weight:600;
+}
+.navbar a 
+{
+  color:white;
+}
+.navbar .menu-hamburger
+{
+  display:none;
+  color:white;
+  position:absolute;
+  top:50px;
+  right:50px;
+  font-size:35px;
+  cursor:pointer;
+}
+
+@media screen and (max-width:900px)
+{
+  .navbar
+  {
+    padding:0;
+  }
+  .navbar .logo
+  {
+    display:none;
+  }
+  .navbar .menu-hamburger
+  {
+    display:block;
+  }
+  .nav-links
+  {
+    top:0;
+    left:-100%;
+    position:absolute;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color:rgba(0,0,0,0.5);
+    backdrop-filter:blur(8px);
+    width:100%;
+    height:100vh;
+    transition: left 0.5s ease;
+    
+  }
+  .nav-links.mobile-menu
+  {
+  left:0;
+    
+  }
+
+  .nav-links ul
+  {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .navbar .nav-links ul li
+  {
+  margin:25px 0;
+  font-size:1.2em;
+  }
+  .menu-hamburger
+  {
+    display:block;
+  }
+}
+        </style>
+
+<nav class="navbar">
+  <a href="#" class="logo">Smart Choice</a>
+  <div class="nav-links">
+    <ul class="nav-menu">
+      <li class="active"><a href={% url 'home' %}>Home</a></li>
+      <li><a href={% url 'functions' %}>EDFS CLI</a></li>
+    </ul>
+  </div>
+    <i class='bx bx-grid-alt menu-hamburger'></i>
+
+</nav>
+    
+    </head>
+    
+        <body>
+
+            <!-- <form action="">
+                <div class="row">
+                    <div class="dropdown">
+                        <label for="cars">Choose a streaming platform:</label>
+                        <br>
+                        <select class = "form-input" name="cars" id="cars1">
+                        <option value="volvo">Amazon</option>
+                        <option value="saab">Disney</option>
+                        <option value="opel">Netflix</option>
+                        </select>
+                        <br><br>
+                    </div>
+                    <div class="dropdown">
+                        <label for="cars">Choose your type:</label>
+                        <br>
+                        <select class = "form-input" name="cars" id="cars2">
+                        <option value="volvo">Movie</option>
+                        <option value="saab">Show</option>
+                        </select>
+                        <br><br>
+                    </div>
+                    <div class="dropdown">
+                        <label for="cars">Choose a genre:</label>
+                        <br>
+                        <select class = "form-input" name="genre" id="cars3">
+                        <option value="action">action</option>
+                        <option value="animation">animation</option>
+                        <option value="comedy">comedy</option>
+                        <option value="crime">crime</option>
+                        <option value="documentation">documentation</option>
+                        <option value="drama">drama</option>
+                        <option value="european">european</option>
+                        <option value="family">family</option>
+                        <option value="fantasy">fantasy</option>
+                        <option value="history">history</option>
+                        <option value="horror">horror</option>
+                        <option value="music">music</option>
+                        <option value="reality">reality</option>
+                        <option value="romance">romance</option>
+                        <option value="scifi">scifi</option>
+                        <option value="sport">sport</option>
+                        <option value="thriller">thriller</option>
+                        <option value="war">war</option>
+                        <option value="western">western</option>
+
+                        
+                        
+                        </select>
+                        <br><br>
+                    </div>
+                    <div class="dropdown">
+                      <label for="IMDB-Rating">IMDB Rating:</label>
+                      <br>
+                      <select class = "form-input" name = "IMDB-rating" id = "IMDB-Rating">
+                      <option value>>1</option>
+                      <option value>>2</option>
+                      <option value>>3</option>
+                      <option value>>4</option>
+                      <option value>>5</option>
+                      <option value>>6</option>
+                      <option value>>7</option>
+                      <option value>>8</option>
+                      <option value>>9</option>
+                      <option value>>10</option>
+                      
+                      </select>
+                      <br><br>
+                  </div>
+                
+                </div>
+                <br>
+                <div class = "Submit-Button">
+                <input type="submit" value="Submit">
+              </div>
+            </form>
+
+            <hr> -->
+            <div class = "choice-body" style = "font-family: Arial; color: white;">
+
+              <a href = {% url 'select_platform' "Shows" %}>
+              <div class="choice-split choice-left">
+                <div class="choice-centered">
+                  <img src="/media/Flat-TV-icon.png" alt="Avatar woman">
+                  <h2 style = "color: white;text-decoration: none;">Shows</h2>
+                  <!-- <p>Some text.</p> -->
+                </div>
+              </div>
+            </a>
+            <a href = {% url 'select_platform' "Movies" %}>
+              <div class="choice-split choice-right">
+                <div class="choice-centered">
+                  <img src="/media/movie-icon.jpg" alt="Avatar man">
+                  <h2 style = "color: white;text-decoration: none;">Movies</h2>
+                  <!-- <p>Some text here too.</p> -->
+                </div>
+              </div>
+            </a>
+
+
+            </div>
+
+           
+            
+            
+            <script>
+            /* When the user clicks on the button, 
+            toggle between hiding and showing the dropdown content */
+            function myFunction() {
+              document.getElementById("myDropdown").classList.toggle("show");
+            }
+            
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function(event) {
+              if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                  var openDropdown = dropdowns[i];
+                  if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                  }
+                }
+              }
+            }
+            </script>
+            
+            </body>
+</html>

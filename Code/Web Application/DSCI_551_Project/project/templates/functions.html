@@ -1,0 +1,606 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <link rel="stylesheet" href={% static 'css/fs-style.css' %}>
+   <style>@import url(https://fonts.googleapis.com/css?family=Inconsolata:400,700);
+    html {
+    background-color: #22262e;
+      overflow-y: scroll; 
+    }
+    
+    .cli-body {
+      font: .875em/1.6 'Inconsolata', monospace;
+      color: rgb(208, 201, 201);
+      font-weight: 400;
+      max-width: 32em;
+      padding: 1em;
+      margin: 5% 0; 
+      margin-top: 10%;
+    }
+    /*---Google font---*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/*---Bases---*/
+*
+{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+body
+{
+  font-family: 'Poppins', sans-serif;
+}
+ul
+{
+  list-style:none;
+}
+a
+{
+  text-decoration:none;
+}
+/*---Header---*/
+.header
+{
+  height:100vh;
+  width:100vw;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2Njg2MjIwNTY&ixlib=rb-4.0.3&q=80');
+  background-size:cover; 
+}
+/*---Navbar---*/
+.navbar
+{
+  /* position:absolute; */
+  width:100%;
+  padding:50px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.navbar .logo
+{
+  font-size:4em;
+  font-weight:bold;
+  text-align: center;
+  margin-left:35%;
+}
+.navbar .nav-links ul
+{
+  display:flex;
+}
+.navbar .nav-links ul li
+{
+  margin:0 25px;
+}
+.navbar .nav-links ul li.active a
+{
+  color:#ed3c57;
+  font-weight:600;
+}
+.navbar a 
+{
+  color:white;
+}
+.navbar .menu-hamburger
+{
+  display:none;
+  color:white;
+  position:absolute;
+  top:50px;
+  right:50px;
+  font-size:35px;
+  cursor:pointer;
+}
+
+@media screen and (max-width:900px)
+{
+  .navbar
+  {
+    padding:0;
+  }
+  .navbar .logo
+  {
+    display:none;
+  }
+  .navbar .menu-hamburger
+  {
+    display:block;
+  }
+  .nav-links
+  {
+    top:0;
+    left:-100%;
+    position:absolute;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color:rgba(0,0,0,0.5);
+    backdrop-filter:blur(8px);
+    width:100%;
+    height:100vh;
+    transition: left 0.5s ease;
+    
+  }
+  .nav-links.mobile-menu
+  {
+  left:0;
+    
+  }
+
+  .nav-links ul
+  {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .navbar .nav-links ul li
+  {
+  margin:25px 0;
+  font-size:1.2em;
+  }
+  .menu-hamburger
+  {
+    display:block;
+  }
+}
+    ::selection{
+      background: #eee
+    }
+    ::-webkit-selection{
+      background: #eee
+    }
+    ::-moz-selection{
+      background: #eee
+    }
+    a{
+      color: white;
+    }
+    a:hover,a:focus{
+      background: #181818;
+      color:#fff;
+    }
+    h2{
+      font-size: 1em;
+      font-weight: 400;
+    }
+    p{
+      margin-bottom:2em;
+    }
+    abbr{
+      cursor: help;
+    }
+    ul{
+      list-style: none;
+      padding: 0;
+    }
+    li{
+      margin:1em 0 0;
+    }
+    span{
+      display: block;
+      color:rgb(197, 193, 193);
+      line-height:1;
+    }
+    
+    kbd{
+      font-family: 'Inconsolata', monospace;
+      border:1px solid #999;
+      text-transform: uppercase;
+      padding:0 .2em;
+    }
+    input[type="text"]{
+      max-width: 10em;
+      border: none;
+      font-family: inherit;
+      background: #22262e;
+      padding:0 .5em;
+    }
+    input[type="text"]:focus{
+      background: #22262e;
+      color: #FFF;
+      outline:none;
+    }
+    .command{
+      display: block;
+      max-width: 20em;
+      color: green;
+      font-weight: 700;
+      margin: 2em 0;
+    }
+    
+    .site-header{
+      color:white;
+      text-align: center;
+    }
+
+    section{
+      display: none;
+    }
+    .open{
+      display: block;
+    }
+    .cli-main{
+      margin-left: 20px;
+      border:2px solid grey;
+      width:800px;
+      min-height:600px;
+    }
+    .cli-header{
+      padding-top:20px;
+      height:50px;
+      width:100%;
+      border:2px solid gray;
+      color:white;
+    }
+    .content-row{
+      /* min-height:1000px; */
+      display:flex;
+    }
+    .file-system{
+      margin-left:10px;
+      border:2px solid white;
+      width:800px;
+      min-height:600px;
+    }
+    .file-system-header{
+      color:white;
+      padding-top:20px;
+      height:50px;
+      width:100%;
+      text-align: center;
+
+    }
+    .file-tree{
+      color:white;
+    }
+    </style>
+    <!--CSS for the JS tree-->
+    <!-- <link rel="stylesheet" href="">
+    <script src=""></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <script> 
+    function RunCommand(comm){
+      args = $("#"+comm+"-args").val();
+
+      db = args.split(" ")[0];
+      args = args.split(" ")[1];
+      $.ajax({
+        url:"/run-command/"+db+"/"+comm+"/"+args,
+      }).done(function(data){
+        // console.log(data);
+        $("#"+comm+"-exec_output").html(data.output);
+      });
+      $.ajax({
+          url: "/get-file-structure",
+        }).done(function(data){
+          console.log("after running command")
+          $("#home-tree-node").html("");
+          console.log(data);
+
+          // data = JSON.parse(data)
+          html_l = ""
+          
+          if (data.has_children){
+            for (var i = 0;i<data.children.length;i++){
+              // html_l+= '<li id = "'+data['children'][i]+'-node">'+data['children'][i]+'</li>';
+              $("#home-tree-node").append($('<li id = "'+data['children'][i]+'-node">').text(data['children'][i]));
+                
+                if (data[data['children'][i]].has_children){
+                  node = data[data['children'][i]];
+                  // console.log(node)
+                  $("#"+data['children'][i]+"-node").append($('<ul id = "'+data['children'][i]+'">'));
+                  for (var j=0;j<node.children.length;j++){  
+                    // console.log("#"+data['children'][i])
+                    $("#"+data['children'][i]).append($('<li id = "'+node['children'][j]+'-node">').text(node['children'][j]));
+                  }
+                }
+            }
+          }
+          // console.log(html_l);
+          // $("#home-tree-node").append(html_l);
+          $("#jstree").jstree({
+                "core" : {
+                  "themes" : {
+                    "variant" : "xlarge"
+                  }
+                }
+              });
+    //       $("#jstree").on("changed.jstree", function(e, data) {
+    //       console.log(data.selected);
+    // });
+    
+        });
+    }
+    // function populate_tree(data){
+    //   if (data.has_children){
+    //         for (var i = 0;i<data.children.length;i++){
+    //           html_l+= '<li id = "'+data['children'][i]+'-node">'+data['children'][i]+'</li>';
+    //           // $("#home-tree-node").append($("<li>").text(data['children'][i]));
+    //         }
+    //       }
+    //       // console.log(html_l);
+    //       $("#home-tree-node").append(html_l);
+    // }
+      $(document).ready(function() {
+        $.ajax({
+          url: "/get-file-structure",
+        }).done(function(data){
+          console.log(data);
+          // data = JSON.parse(data)
+          html_l = ""
+          // data = data.home;
+          
+          if (data.has_children){
+            for (var i = 0;i<data.children.length;i++){
+              // html_l+= '<li id = "'+data['children'][i]+'-node">'+data['children'][i]+'</li>';
+              $("#home-tree-node").append($('<li id = "'+data['children'][i]+'-node">').text(data['children'][i]));
+                
+                if (data[data['children'][i]].has_children){
+                  node = data[data['children'][i]];
+                  console.log(node)
+                  $("#"+data['children'][i]+"-node").append($('<ul id = "'+data['children'][i]+'">'));
+                  for (var j=0;j<node.children.length;j++){  
+                    // console.log("#"+data['children'][i])
+                    $("#"+data['children'][i]).append($('<li id = "'+node['children'][j]+'-node">').text(node['children'][j]));
+                  }
+                }
+            }
+          }
+          // console.log(html_l);
+          $("#home-tree-node").append(html_l);
+          
+
+          $("#jstree").jstree({
+                "core" : {
+                  "themes" : {
+                    "variant" : "xlarge"
+                  }
+                }
+              });
+    //       $("#jstree").on("changed.jstree", function(e, data) {
+    //       console.log(data.selected);
+    // });
+    
+        });
+      });
+
+       (function(e){"use strict";e.fn.textTyper=function(t){
+        var n={typingClass:"typing",beforeAnimation:function(){},
+        afterAnimation:function(){},
+        speed:30,
+        nextLineDelay:100,
+        startsFrom:0,
+        repeatAnimation:false,
+        repeatDelay:4e3,
+        repeatTimes:1,
+        cursorHtml:'<span class="cursor">|</span>'},r=e.extend({},n,t);this.each(function(){var t=e(this),n=1,i="typingCursor";var s=t,o=s.length,u=[];while(o--){u[o]=e.trim(e(s[o]).html());e(s[o]).html("")}t.init=function(e){var n=r.beforeAnimation;if(n)n();t.animate(0)};t.animate=function(o){var a=s[o],f=r.typingClass,l=r.startsFrom;e(a).addClass(f);var c=setInterval(function(){var f=r.cursorHtml;f=e("<div>").append(e(f).addClass(i)).html();e(a).html(u[o].substr(0,l)+f);l++;if(u[o].length<l){clearInterval(c);o++;if(s[o]){setTimeout(function(){e(a).html(u[o-1]);t.animate(o)},r.nextLineDelay)}else{e(a).find("."+i).remove();if(r.repeatAnimation&&(r.repeatTimes==0||n<r.repeatTimes)){setTimeout(function(){t.animate(0);n++},r.repeatDelay)}else{var h=r.afterAnimation;if(h)h()}}}},r.speed)};t.init()});return this}})(jQuery)
+       
+       
+       $(document).ready(function() {
+       
+         $('.command').hide();
+         $('input[type="text"]').focus();
+         $('#home').addClass('open');
+         $('#home').textTyper({
+               speed:20,
+               afterAnimation:function(){
+                 $('.command').fadeIn();
+                 $('input[type="text"]').focus();
+                 $('input[type="text"]').val('');
+               }
+             });
+       
+       // get array of section ids, that exist in DOM
+       var sectionArray = [];
+       // We are using <section> here, you can use <div> or <article> if you want
+       $('section').each( function(i,e) {
+           //you can use e.id instead of $(e).attr('id')
+           sectionArray.push($(e).attr('id'));
+       });
+       
+       // Debug
+       //console.log(sectionArray);
+       
+       
+       
+       // Command Input------------------------------
+       
+         $('input[type="text"]').keyup(function(e){
+       
+           if(e.which == 13){// ENTER key pressed
+       
+             $('.command').hide();
+             var destination = $('input[type="text"]').val();
+       
+             // Display section with id == destination and hide all others
+             $('section[id="' + destination + '"]').addClass('open').siblings().removeClass('open');
+       
+             // If destination does not match our array of section ids, display error section
+             if($.inArray(destination, sectionArray) == -1){
+               $('#error').addClass('open');
+               $('#error').siblings().removeClass('open');
+             }
+       
+             // All sections with class .open init textTyper
+             $('.open').textTyper({
+               speed:20,
+               afterAnimation:function(){
+                 $('.command').fadeIn();
+                 $('input[type="text"]').focus();
+                 $('input[type="text"]').val('');
+               }
+             });
+       
+           }// end if ENTER key pressed
+       
+         });// end keyup function
+       
+       // End Command Input-----------------------------
+       
+       });</script>       
+
+</head>
+<body>
+  <nav class="navbar" style = "margin-top :0">
+    <a href="#" class="logo">Smart Choice</a>
+    <div class="nav-links">
+      <ul class="nav-menu">
+        <li class="active"><a href={% url 'home' %}>Home</a></li>
+        <li><a href={% url 'functions' %}>EDFS CLI</a></li>
+      </ul>
+    </div>
+      <i class='bx bx-grid-alt menu-hamburger'></i>
+  
+  </nav>
+
+<div class = "site-header">
+  <h1>EDFS File System</h1>
+</div>
+<div class = "content-row">
+  <div class = "cli-main">
+    <div class = "cli-header">
+      <h3> Command Terminal</h3>
+    </div>
+    <div class = "cli">
+    <main class = "cli-body">
+        <section id="home">
+          <h2>Smart Choice - Interactive CLI</h2>
+          <p>A fun command-line interfact for displaying simple info in a geeky manner.</p>
+          <p><span>Type 'help' + <kbd>Enter</kbd> -- for available commands.</span></p>
+        </section>
+        
+        <section id="mkdir">
+          <h2><span>&raquo;mkdir</span></h2>
+          <p>Description: create a directory in file system, e.g., mkdir /user/john</p>
+          <p>example: to run the command "mkdir /home/john", <br> <b>FOR SQL:</b> type "sql home.john" <br> <b>FOR Firebase:</b> type "fb home.join"</p>
+          <p>Enter the arguments for this command </p>
+          <!-- <input id = "args" type = "text"> -->
+          <textarea id="mkdir-args" name="w3review" rows="1" cols="50">
+            </textarea>
+          <button onclick = "RunCommand('mkdir')">Run</button>
+          <p>Output: </p>
+          <p id = "mkdir-exec_output"></p>
+        </section>
+
+        <section id="ls">
+          <h2><span>&raquo;ls</span></h2>
+          <p>Description:listing content of a given directory. Output is the names of the folders/files inside the mentioned file </p>
+          <p>example:to execute the command "ls /home" <br> <b>FOR SQL:</b> type "sql home" <br> <b>FOR Firebase:</b> type "fb home"</p>
+          <p>Enter the arguments for this command </p>
+          <!-- <input id = "args" type = "text"> -->
+          <textarea id="ls-args" name="w3review" rows="1" cols="50"></textarea>
+          <button onclick = "RunCommand('ls')">Run</button>
+          <p>Output: </p>
+          <p id = "ls-exec_output"></p>
+        </section>
+
+        <section id="cat">
+          <h2><span>&raquo;cat</span></h2>
+          <p>Description: display content of a file</p>
+          <p>example:to execute the command "cat /home/john/hello.txt" <br> <b>FOR SQL:</b> type "sql home/john/hello.txt" <br> <b>FOR Firebase:</b> type "fb home/john/hello.txt"</p>
+          <p>Enter the arguments for this command </p>
+          <!-- <input id = "args" type = "text"> -->
+          <textarea id="cat-args" name="w3review" rows="1" cols="50"></textarea>
+          <button onclick = "RunCommand('cat')">Run</button>
+          <p>Output: </p>
+          <p id = "cat-exec_output"></p>
+        </section>
+
+        <section id="rm">
+          <h2><span>&raquo;rm</span></h2>
+          <p>Description: remove a file from the file system</p>
+          <p>example:to execute the command "rm /home/john/hello.txt" <br> <b>FOR SQL:</b> type "sql home/john/hello.txt" <br> <b>FOR Firebase:</b> type "fb home/john/hello.txt"</p>
+          <p>Enter the arguments for this command </p>
+          <!-- <input id = "args" type = "text"> -->
+          <textarea id="rm-args" name="w3review" rows="1" cols="50"></textarea>
+          <button onclick = "RunCommand('rm')">Run</button>
+          <p>Output: </p>
+          <p id = "rm-exec_output"></p>
+        </section>
+        
+        <section id="put">
+          <h2><span>&raquo;put</span></h2>
+          <p>Description: uploading a file to file system </p>
+          <p>example:to execute the command "put(cars.csv, /user/john, k = 3)"  <br> <b>FOR SQL:</b> type "sql cars.cvs,/home/john,3" <br> <b>FOR Firebase:</b> type "fb cars.cvs,/home/john,3"</p>
+          <p>Enter the arguments for this command </p>
+          <!-- <input id = "args" type = "text"> -->
+          <textarea id="put-args" name="w3review" rows="1" cols="50"></textarea>
+          <button onclick = "RunCommand('put')">Run</button>
+          <p>Output: </p>
+          <p id = "put-exec_output"></p>
+        </section>
+
+        <section id="getPartitionLocations">
+        <h2><span>&raquo;getPartitionLocations</span></h2>
+        <p>Description: this method will return the locations of partitions of the file</p>
+        <p>example:to execute the command "getPartitionLocations(file)"  <br> <b>FOR SQL:</b> type "sql file" <br> <b>FOR Firebase:</b> type "fb file"</p>
+        <p>Enter the arguments for this command </p>
+        <!-- <input id = "args" type = "text"> -->
+        <textarea id="getPartitionLocations-args" name="w3review" rows="1" cols="50"></textarea>
+        <button onclick = "RunCommand('getPartitionLocations')">Run</button>
+        <p>Output: </p>
+        <p id = "getPartitionLocations-exec_output"></p>
+        </section>
+
+        <section id="readPartition">
+          <h2><span>&raquo;readPartition</span></h2>
+          <p>Description: return the content of partition # of the specified file.</p>  
+          <p>example:to execute the command "readPartition(file=cars.csv,partition#=3)" <br> <b>FOR SQL: type "sql cars.csv,3" <br> <b>FOR Firebase: type "fb cars.csv,3"</p>
+          <p>Enter the arguments for this command </p>
+          <!-- <input id = "args" type = "text"> -->
+          <textarea id="readPartitionLocations-args" name="w3review" rows="1" cols="50"></textarea>
+          <button onclick = "RunCommand('readPartitionLocations')">Run</button>
+          <p>Output: </p>
+          <p id = "readPartitionLocations-exec_output"></p>
+        </section>
+        
+        
+        <section id="error">
+        <p>Command not found!<p> 
+        <p><span>Type 'help' + <kbd>Enter</kbd> -- for available commands.</span></p>
+        </section>
+        
+        <section id="help">
+        <h2><span>&raquo;Help?</span></h2>
+        <p><span>Type [command] + <kbd>Enter</kbd></span></p>
+        <ul>
+            <li>'home' -- Thats obvious!</li>
+            <li>'mkdir' -- create a directory in file system</li>
+            <li>'ls' -- listing content of a given directory</li>
+            <li>'cat' -- display content of a file</li>
+            <li>'rm' -- remove a file from the file system</li>
+            <li>'put' -- uploading a file to file system</li>
+            <li>'getPartitionLocations' --  return the locations of partitions of the file.</li> 
+            <li>'readPartition' -- return the content of partition # of the specified file. </li>
+            <li>'help' -- displays this list</li>
+        </ul>
+        </section>
+        
+        <span class="command">SmartChoiceCLI:/$<input type="text"></span>
+
+        </main>
+      </div>
+</div>
+  <div class = "file-system">
+    <div class = "file-system-header">
+      <h3> Real-Time File System</h3>
+    </div>
+    <div class = "file-tree">
+      <div id = "jstree">
+        <ul id = "home">
+          <li>Home  
+            <ul id = "home-tree-node"></ul>
+          </li>
+        </ul>
+      </div>
+    </div>  
+  </div>
+</div>
+</body>
+</html>
